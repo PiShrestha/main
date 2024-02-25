@@ -1,14 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nutrient and Allergen Identifier</title>
-    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
-</head>
-<body>
-    <form action="/result" method="post">
-        <button type="submit">Scan barcode</button>
-    </form>
-</body>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Nutritional Scanner</title>
+        <style>
+            h3{
+                text-align: center;
+                font-size: 25px;
+            }
+            .container {
+                text-align: center;
+
+            }
+            .centered-button {
+                padding: 10px 20px;
+            }
+            p{
+                font-size: 22px; 
+                text-align: center;
+                margin-right: 10px;
+                margin-left: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1 style="text-align: center; color:green">Nothing but Nutrition!</h1>
+        <div class="container">
+            <form action="/result" method="post">
+                <button type="submit" class="centered-button">Scan barcode</button>
+            </form>
+        </div>
+        <br>
+        <br>
+        <br>
+        <h3>About Us</h3>
+        <p>"Nothing but Nutrition" is a web application constructed with HTML, CSS, JavaScript, and the Flask framework from Python. Its primary functionality lies in retrieving key nutritional information through barcode scanning, facilitated by the Open Food Fact API. It serves as an educational tool, offering users a direct pathway to nutritional awareness and allergen identification in food products. This nuanced approach encourages users to make informed and health-conscious dietary decisions for healthier living. “Nothing but Nutrition” was developed by a group of first-year students at the University of Virginia as part of the 2024 “Hack the Map” hackathon.</p>
+    </body>
 </html>

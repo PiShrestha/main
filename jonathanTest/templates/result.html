@@ -1,32 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Barcode Information</title>
-    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
-</head>
-<body>
-    <h1>This is the result of your barcode scan</h1>
-    <h1>Search Product Info by Barcode</h1>
-    {% if product %}
-        <h2>Product Information:</h2>
-        {% if product == 'Product not found or doesn\'t exist.' %}
-            <p>{{ product }}</p>
-        {% else %}
-            <p>Product Name: {{ product.name }}</p>
-            <p>Allergens: {{ product.allergens }}</p>
-            <p>Serving Size: {{ product.serving_size }}</p>
-            <p>Ingredients: {{ product.ingredients }}</p>
-            <p>Nutrients:</p>
-            <ul>
-                {% for nutrient, value in product.nutriments.items() %}
-                    <li>{{ nutrient }}: {{ value }}</li>
-                {% endfor %}
-            </ul>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Barcode Information</title>
+        <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+        <style>
+            .container {
+                text-align: center;
+            }
+
+            .centered-button {
+                padding: 10px 20px;
+                font-size: 16px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1 style="text-align: center; color:green">Barcode Scan</h1>
+        {% if product %}
+            <h2>Product Information:</h2>
+            {% if product == 'Product not found or doesn\'t exist.' %}
+                <p>{{ product }}</p>
+            {% else %}
+                <p>Product Name: {{ product.name }}</p>
+                <p>Allergens: {{ product.allergens }}</p>
+                <p>Serving Size: {{ product.serving_size }}</p>
+                <p>Ingredients: {{ product.ingredients }}</p>
+                <p>Nutrients:</p>
+                <p>Total Fat: {{ product.fat }}{{product.fat_unit}}</p>
+                <p>Cholesterol: {{ product.cholesterol }}{{product.cholesterol_unit}}</p>
+                <p>Sodium: {{ product.sodium * 1000 }}{{product.sodium_unit}}</p>
+                <p>Total Carbohydrates: {{ product.carbohydrates }}{{product.carbohydrates_unit}}</p>
+                <p>Total Sugars: {{ product.sugars }}{{product.sugars_unit}}</p>
+                <p>Protein: {{ product.proteins }}{{product.proteins_unit}}</p>
+            {% endif %}
         {% endif %}
-    {% endif %}
-    <p>{{ barcode }}</p>
-    <a href="{{ url_for('index') }}"><button>Go back to Home</button></a>
-</body>
+        <p>{{ barcode }}</p>
+        <div class="container">
+            <a href="{{ url_for('index') }}" style="text-align: center;"><button class="centered-button">Back to Home</button></a>
+        </div>
+    </body>
 </html>
