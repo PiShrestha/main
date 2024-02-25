@@ -24,11 +24,11 @@ def fetch_product_info(barcode):
             'serving_size': product.get('serving_size', 'No serving size available'),
             'allergens': product.get('allergens_from_ingredients', 'No allergens information available'),
             'ingredients': product.get('ingredients_text', 'No ingredients text available'),
-            'nutriments': product.get('nutriments', {})
+            'nutrients': product.get('nutrients', {})
         }
         return product_info
     else:
         return "Product not found or doesn't exist."
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(port=8080, debug=True)
