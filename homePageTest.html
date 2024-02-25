@@ -66,24 +66,37 @@
         <h1>
             Nutritional Scanner
         </h1>
+    <!--Create the screen with the current dimesion of the screen-->
     <div id="screen">
+        
+        
+        <!--Left side that play camera image-->
         <div id="container">
+
+            <!--Adjust videoElement to change camera size in the container size-->
             <video autoplay="true" id="videoElement">
 
             </video>
         </div>
 
         
+        <!--Right side of the screen for displaying allergen list-->
         <div id="rightForAllergy">
             <!-- Search input -->
+
+            <!--Basic text/header-->
             <h2>
                 Select the food(s) you want to look out for:
             </h2>
             <h3>
                 Click on a input to delete it from the list
             </h3>
+
+            <!--Creates the input bar and then filter all possible options-->
             <input type="text" id="searchInput" list="optionsList" oninput="filterOptions(event.target.value)"> 
-            <!-- Datalist for options -->
+
+
+            <!-- Datalist for options of allergens (add more in the same format for more options)-->
             <datalist id="optionsList">
                 <option value="Pork">
                 <option value="Eggs">
@@ -92,7 +105,7 @@
   <!-- Add more options as needed -->
             </datalist>
 
-<!-- Selected options list -->
+<!-- Selected options list  to display the choosen items-->
 <ul id="selectedOptions"></ul>
 
         </div>
@@ -100,8 +113,10 @@
 
 
     <script>
+        //gets current elements in the list
         const selectedOptionsList = document.getElementById('selectedOptions');
         
+        //get items from the database of options then shows themif they are still available
         function filterOptions(value) {
           const optionsList = document.getElementById('optionsList');
           const options = optionsList.getElementsByTagName('option');
@@ -124,7 +139,7 @@
           }
         }
         
-        // Add event listener for option selection
+        // Add event listener for option selection, if option is clicked add it to the list
         document.getElementById('searchInput').addEventListener('change', function(event) {
           addToSelectedList(event.target.value);
         });
@@ -139,6 +154,7 @@
           }
         });
         
+        //adds to the list and if a part of the list is selected, delete that part
         function addToSelectedList(value) {
           // Check if the value already exists in the list
           if (!selectedOptionsList.querySelector(`li[data-value="${value}"]`)) {
@@ -155,7 +171,9 @@
         </script>
 
 
+    <!--Script for camera in the box, sets up a video element and then uses that element-->
     <script>
+        //camera script
         let video = document.querySelector("#videoElement")
         if (navigator.mediaDevices.getUserMedia){
             navigator.mediaDevices.getUserMedia({video: true}).then(function(stream){
