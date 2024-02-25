@@ -1,9 +1,115 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Product Info</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>Nutritional Information</title>
+    <style>
+        h1{
+            font-family: sans-serif;
+            color: #333;
+            text-align: center;
+        }
+        h2{
+            text-align: center;
+        }
+        body{
+            margin: 50px;
+        }
+
+        #container{
+            margin-left: 5%;
+            width: 40%;
+            height: 375px;
+            background-color: #333;
+            border: 3px #333 solid;
+            float: left;
+        }
+        #videoElement{
+            width: 100%;
+            height: 375px;
+            background-color: #666;
+        }
+        #rightForAllergy{
+            margin-left: 60%; 
+            height: 375px; 
+            background: rgb(29, 178, 166);
+        }
+        #screen{
+            width: 100%;
+            height: 100;
+        }
+
+        #searchInput {
+            width:95%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 6px;
+        }
+        #selectedOptions {
+            margin-top: 20px;
+            cursor: pointer;
+        }
+
+    </style>
 </head>
 <body>
+    <h1>Search Product Info by Barcode</h1>
+<!--Create the screen with the current dimesion of the screen-->
+<div id="screen">
+    
+    
+    <!--Left side that play camera image-->
+    <div id="container">
+
+        <!--Adjust videoElement to change camera size in the container size-->
+        <video autoplay="true" id="videoElement">
+
+        </video>
+        <button id="myButton">Click to start scanning for barcode</button>
+    </div>
+
+    
+    <!--Right side of the screen for displaying allergen list-->
+    <div id="rightForAllergy">
+        <!-- Search input -->
+
+        <!--Basic text/header-->
+        <h2>
+            Select the food(s) you want to look out for:
+        </h2>
+        <h3>
+            Click on a input to delete it from the list
+        </h3>
+
+        <!--Creates the input bar and then filter all possible options-->
+        <input type="text" id="searchInput" list="optionsList" oninput="filterOptions(event.target.value)"> 
+
+
+        <!-- Datalist for options of allergens (add more in the same format for more options)-->
+        <datalist id="optionsList">
+            <option value="Pork">
+            <option value="Eggs">
+            <option value="Wheat">
+            <option value="Cheese">
+<!-- Add more options as needed -->
+        </datalist>
+
+<!-- Selected options list  to display the choosen items-->
+        <ul id="selectedOptions"></ul>
+
+        </div>
+    </div>
+
+    <br>
+    <br>
+    <br>
+    <hr>
+    <hr>
+
+<!--Barcode info part-->    
     <h1>Search Product Info by Barcode</h1>
     <form method="POST">
         <input type="text" name="barcode" placeholder="Enter barcode number" required>
@@ -26,6 +132,83 @@
             </ul>
         {% endif %}
     {% endif %}
+
+
+    <!--Script for top part of display-->
+    <script>
+        //gets current elements in the list
+        const selectedOptionsList = document.getElementById('selectedOptions');
+        
+        //get items from the database of options then shows themif they are still available
+        function filterOptions(value) {
+          const optionsList = document.getElementById('optionsList');
+          const options = optionsList.getElementsByTagName('option');
+          let otherOption = optionsList.querySelector('option[value="Other"]');
+          
+          // Loop through options to show/hide based on input value
+          for (let option of options) {
+            if (option.value.toLowerCase().includes(value.toLowerCase()) || value.toLowerCase() === "other") {
+              option.style.display = 'block';
+            } else {
+              option.style.display = 'none';
+            }
+          }
+        
+          // If the input value is "Other", show the input field
+          if (value.toLowerCase() === "other") {
+            otherOption.style.display = 'block';
+          } else {
+            otherOption.style.display = 'none';
+          }
+        }
+        
+        // Add event listener for option selection, if option is clicked add it to the list
+        document.getElementById('searchInput').addEventListener('change', function(event) {
+          addToSelectedList(event.target.value);
+        });
+        
+        // Add event listener for custom value input
+        document.getElementById('searchInput').addEventListener('blur', function(event) {
+          if (event.target.value.toLowerCase() === "other") {
+            let customValue = prompt("Enter your custom value:");
+            if (customValue) {
+              addToSelectedList(customValue);
+            }
+          }
+        });
+        
+        //adds to the list and if a part of the list is selected, delete that part
+        function addToSelectedList(value) {
+          // Check if the value already exists in the list
+          if (!selectedOptionsList.querySelector(`li[data-value="${value}"]`)) {
+            let listItem = document.createElement('li');
+            listItem.textContent = value;
+            listItem.setAttribute('data-value', value);
+    
+            listItem.addEventListener('click', function() {
+                listItem.remove();
+                });
+            selectedOptionsList.appendChild(listItem);
+          }
+        }
+        </script>
+
+
+    <!--Script for camera in the box, sets up a video element and then uses that element-->
+    <script>
+        //camera script
+        let video = document.querySelector("#videoElement")
+        if (navigator.mediaDevices.getUserMedia){
+            navigator.mediaDevices.getUserMedia({video: true}).then(function(stream){
+            track = stream.getTracks()[0];
+            video.srcObject = stream;
+            }).catch(function(error){
+            console.error("Something is wrong", error)
+            });
+        }
+        else{
+            console.log("User media not supported")
+        }
+    </script>
 </body>
 </html>
-
